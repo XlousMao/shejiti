@@ -1,0 +1,17 @@
+{
+  "name": "算法分析-文档站",
+  "version": "1.0.0",
+  "private": true,
+  "description": "将 docx 批量转换为 Markdown 并通过 Docsify 提供导航站点。",
+  "scripts": {
+    "convert": "node scripts/convert.js",
+    "serve": "docsify serve docs"
+  },
+  "dependencies": {
+    "mammoth": "^1.6.0",
+    "turndown": "^7.1.2"
+  },
+  "devDependencies": {
+    "docsify-cli": "^4.4.4"
+  }
+}
