@@ -9,50 +9,104 @@
   </head>
   <body>
 	<div id="app">加载中…</div>
-	<style>
-	  .markdown-section .is-answer { color: #e53935; font-weight: 600; }
+    <style>
+      /* 全局字体与配色优化 */
+      :root {
+        --theme-color: #3eaf7c;
+        --text-color: #34495e;
+        --heading-color: #2c3e50;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
 
-      /* --- 移动端适配修复开始 --- */
+      /* 侧边栏美化 */
+      .sidebar {
+        border-right: 1px solid #eaecef;
+        background-color: #fafafa;
+      }
+      .sidebar ul li a {
+        transition: all 0.2s ease;
+      }
+      .sidebar ul li.active > a {
+        border-right: 3px solid var(--theme-color);
+        background: rgba(62, 175, 124, 0.05);
+        color: var(--theme-color);
+        font-weight: 600;
+      }
+
+      /* 内容区域美化 */
+      .markdown-section {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem 3rem;
+      }
+      
+      .markdown-section h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      /* 答案高亮样式 */
+      .markdown-section .is-answer { 
+        color: #e53935; 
+        font-weight: 600;
+        background: rgba(229, 57, 53, 0.08);
+        padding: 0 4px;
+        border-radius: 3px;
+      }
+
+      /* 移动端深度适配 */
       @media screen and (max-width: 768px) {
-        /* 1. 增加正文顶部间距，防止被左上角的菜单按钮遮挡标题 */
+        /* 增加顶部间距，避开悬浮按钮 */
         .markdown-section {
-          padding-top: 50px !important; 
+          padding: 1.5rem 1rem;
+          padding-top: 4.5rem !important;
         }
 
-        /* 2. 给菜单按钮增加半透明背景，防止按钮图标与底部文字混在一起看不清 */
+        /* 侧边栏切换按钮优化 */
         .sidebar-toggle {
-          background: rgba(255, 255, 255, 0.8);
-          border-radius: 0 0 4px 0;
-          padding: 5px;
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          border-radius: 0 0 8px 0;
+          padding: 10px;
+          width: auto;
+          top: 0;
+          left: 0;
         }
         
-        /* 3. 修复暗黑模式下菜单按钮背景色 */
+        /* 暗黑模式下的按钮适配 */
         body.dark .sidebar-toggle {
-          background: rgba(0, 0, 0, 0.6);
+          background: rgba(30, 30, 30, 0.95);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        /* 4. 强制表格和代码块横向滚动，防止撑破屏幕导致左右晃动 */
+        /* 表格和代码块强制横向滚动 */
         .markdown-section table, 
         .markdown-section pre {
           display: block;
           overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
           max-width: 100%;
         }
         
-        /* 5. 限制图片最大宽度 */
+        /* 图片自适应与美化 */
         .markdown-section img {
           max-width: 100% !important;
           height: auto;
+          border-radius: 4px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        /* 6. 调整暗黑模式切换按钮位置，避免遮挡内容或与其他按钮重叠 */
+        /* 暗黑模式切换按钮位置调整 */
         #docsify-darklight-theme {
-          top: 10px;
-          right: 10px;
-          z-index: 1000;
+          top: 12px;
+          right: 12px;
+          z-index: 1100;
         }
       }
-      /* --- 移动端适配修复结束 --- */
     </style>
 	<script>
 	  window.$docsify = {

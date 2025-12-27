@@ -15,6 +15,14 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
+const chapterTitles = {
+  1: '基础知识',
+  2: '分治策略',
+  3: '动态规划',
+  4: '贪心法',
+  5: '回溯与分支界限'
+};
+
 function chineseToNumber(chStr) {
   // 支持到“二十”，覆盖常见的章节与题号
   const map = { '零': 0, '一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9 };
@@ -40,6 +48,11 @@ function parseFilename(file) {
   const problemMatch = problem.match(/^第(.+?)题$/);
   const chapterNum = chapterMatch ? chineseToNumber(chapterMatch[1]) : 0;
   const problemNum = problemMatch ? chineseToNumber(problemMatch[1]) : 0;
+
+  if (chapterTitles[chapterNum]) {
+    chapter = `${chapter}：${chapterTitles[chapterNum]}`;
+  }
+
   return { chapter, problem, chapterNum, problemNum };
 }
 
