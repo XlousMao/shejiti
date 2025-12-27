@@ -1,86 +1,128 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>算法分析复习文档</title>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>算法分析复习文档</title>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css" />
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
   </head>
   <body>
-    <div id="app">加载中…</div>
-    <style>
-      .markdown-section .is-answer { color: #e53935; font-weight: 600; }
+	<div id="app">加载中…</div>
+	<style>
+	  .markdown-section .is-answer { color: #e53935; font-weight: 600; }
+
+      /* --- 移动端适配修复开始 --- */
+      @media screen and (max-width: 768px) {
+        /* 1. 增加正文顶部间距，防止被左上角的菜单按钮遮挡标题 */
+        .markdown-section {
+          padding-top: 50px !important; 
+        }
+
+        /* 2. 给菜单按钮增加半透明背景，防止按钮图标与底部文字混在一起看不清 */
+        .sidebar-toggle {
+          background: rgba(255, 255, 255, 0.8);
+          border-radius: 0 0 4px 0;
+          padding: 5px;
+        }
+        
+        /* 3. 修复暗黑模式下菜单按钮背景色 */
+        body.dark .sidebar-toggle {
+          background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* 4. 强制表格和代码块横向滚动，防止撑破屏幕导致左右晃动 */
+        .markdown-section table, 
+        .markdown-section pre {
+          display: block;
+          overflow-x: auto;
+          max-width: 100%;
+        }
+        
+        /* 5. 限制图片最大宽度 */
+        .markdown-section img {
+          max-width: 100% !important;
+          height: auto;
+        }
+
+        /* 6. 调整暗黑模式切换按钮位置，避免遮挡内容或与其他按钮重叠 */
+        #docsify-darklight-theme {
+          top: 10px;
+          right: 10px;
+          z-index: 1000;
+        }
+      }
+      /* --- 移动端适配修复结束 --- */
     </style>
-    <script>
-      window.$docsify = {
-        name: '算法分析复习',
-        themeColor: '#3eaf7c',
+	<script>
+	  window.$docsify = {
+		name: '算法分析复习',
+		themeColor: '#3eaf7c',
 		relativePath: true,
-        loadNavbar: true,
-        loadSidebar: true,
-        auto2top: true,
-        subMaxLevel: 2,
-        coverpage: true,
-        formatUpdated: '{YYYY}-{MM}-{DD}',
-        search: 'auto',
-        darklightTheme: {
-          defaultTheme: 'light',
-          siteFont: 'Noto Sans SC, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif',
-          codeFontFamily: 'Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace',
-          themeColor: '#3eaf7c'
-        }
-      };
-      (function () {
-        function markChoiceAnswers(rootSel) {
-          const root = document.querySelector(rootSel);
-          if (!root) return;
-          const answerRegex = /答案[:：]\s*([A-D])/;
-          const punct = '[\\.、．]';
-          function markAround(ansEl, letter) {
-            const optionRegex = new RegExp('^\n?\s*' + letter + punct + '\\s*');
-            // 向前寻找最近的列表或段落
-            let el = ansEl.previousElementSibling;
-            let steps = 0;
-            while (el && steps < 30) {
-              if (el.tagName === 'UL' || el.tagName === 'OL') {
-                const items = Array.from(el.querySelectorAll('li'));
-                for (const li of items) {
-                  if (optionRegex.test(li.textContent)) {
-                    li.classList.add('is-answer');
-                    return;
-                  }
-                }
-              } else if (/^(P|LI)$/i.test(el.tagName)) {
-                if (optionRegex.test(el.textContent)) {
-                  el.classList.add('is-answer');
-                  return;
-                }
-              }
-              el = el.previousElementSibling;
-              steps++;
-            }
-          }
-          const candidates = root.querySelectorAll('p, li');
-          candidates.forEach((el) => {
-            const m = el.textContent.match(answerRegex);
-            if (m) {
-              markAround(el, m[1]);
-            }
-          });
-        }
-        window.$docsify = window.$docsify || {};
-        window.$docsify.plugins = [].concat(function (hook) {
-          hook.doneEach(function () {
-            markChoiceAnswers('.markdown-section');
-          });
-        }, window.$docsify.plugins || []);
-      })();
-    </script>
-    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+		loadNavbar: true,
+		loadSidebar: true,
+		auto2top: true,
+		subMaxLevel: 2,
+		coverpage: true,
+		formatUpdated: '{YYYY}-{MM}-{DD}',
+		search: 'auto',
+		darklightTheme: {
+		  defaultTheme: 'light',
+		  siteFont: 'Noto Sans SC, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif',
+		  codeFontFamily: 'Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace',
+		  themeColor: '#3eaf7c'
+		}
+	  };
+	  (function () {
+		function markChoiceAnswers(rootSel) {
+		  const root = document.querySelector(rootSel);
+		  if (!root) return;
+		  const answerRegex = /答案[:：]\s*([A-D])/;
+		  const punct = '[\\.、．]';
+		  function markAround(ansEl, letter) {
+			const optionRegex = new RegExp('^\n?\s*' + letter + punct + '\\s*');
+			// 向前寻找最近的列表或段落
+			let el = ansEl.previousElementSibling;
+			let steps = 0;
+			while (el && steps < 30) {
+			  if (el.tagName === 'UL' || el.tagName === 'OL') {
+				const items = Array.from(el.querySelectorAll('li'));
+				for (const li of items) {
+				  if (optionRegex.test(li.textContent)) {
+					li.classList.add('is-answer');
+					return;
+				  }
+				}
+			  } else if (/^(P|LI)$/i.test(el.tagName)) {
+				if (optionRegex.test(el.textContent)) {
+				  el.classList.add('is-answer');
+				  return;
+				}
+			  }
+			  el = el.previousElementSibling;
+			  steps++;
+			}
+		  }
+		  const candidates = root.querySelectorAll('p, li');
+		  candidates.forEach((el) => {
+			const m = el.textContent.match(answerRegex);
+			if (m) {
+			  markAround(el, m[1]);
+			}
+		  });
+		}
+		window.$docsify = window.$docsify || {};
+		window.$docsify.plugins = [].concat(function (hook) {
+		  hook.doneEach(function () {
+			markChoiceAnswers('.markdown-section');
+		  });
+		}, window.$docsify.plugins || []);
+	  })();
+	</script>
+	<script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+	<script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+	<script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
   </body>
   </html>
